@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gpldroid.github.io/camel/sitemap.xml
