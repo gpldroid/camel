@@ -23,7 +23,10 @@ The CMS is configured for the GitHub backend, but GitHub OAuth is not active unt
 A Cloudflare Worker starter is included at `oauth/worker.js`. Deploy it as a Worker and set these Worker secrets:
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
-- `OAUTH_REDIRECT_URI` (the deployed Worker callback URL)
+
+Set these Worker variables:
+- `OAUTH_REDIRECT_URI` (the full deployed Worker callback URL, ending in `/callback`)
+- `CMS_ORIGIN` (`https://gpldroid.github.io`, or the exact origin of your published site)
 
 Then replace `YOUR_OAUTH_WORKER_HOST` in `admin/config.yml` with the Worker hostname, and register the matching callback URL in your GitHub OAuth App. Restrict the OAuth App homepage URL to your published site. The Worker should be reviewed and tested before production use.
 
