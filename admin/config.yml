@@ -1,0 +1,46 @@
+backend:
+  name: github
+  repo: gpldroid/camel
+  branch: main
+  base_url: https://YOUR_OAUTH_WORKER_HOST
+  auth_endpoint: auth
+
+site_url: https://gpldroid.github.io/camel
+display_url: https://gpldroid.github.io/camel
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: posts
+    label: Articles
+    folder: _posts
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "{{categories}}/{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Publish date, name: date, widget: datetime }
+      - { label: Description (SEO), name: description, widget: text }
+      - { label: Categories, name: categories, widget: list, required: false }
+      - { label: Featured image, name: image, widget: image, required: false }
+      - { label: Image alt text, name: image_alt, widget: string, required: false }
+      - { label: Author, name: author, widget: string, default: "Site Editor" }
+      - { label: Draft, name: draft, widget: boolean, default: false, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: pages
+    label: Static pages
+    folder: _pages
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Permalink, name: permalink, widget: string, required: false }
+      - { label: Description (SEO), name: description, widget: text, required: false }
+      - { label: Body, name: body, widget: markdown }
