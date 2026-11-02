@@ -1,8 +1,8 @@
-// Cloudflare Worker OAuth proxy starter for Decap CMS GitHub backend.
-// Set Worker secrets: GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET.
-// Set Worker variables: OAUTH_REDIRECT_URI (https://worker.example.com/callback),
-// CMS_ORIGIN (https://gpldroid.github.io). Use the exact published origin.
-// Register OAUTH_REDIRECT_URI as the callback URL in your GitHub OAuth App.
+// Cloudflare Worker OAuth proxy for Decap CMS GitHub backend.
+// Required Worker secrets: GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET.
+// Required Worker variables: OAUTH_REDIRECT_URI and CMS_ORIGIN.
+// OAUTH_REDIRECT_URI must match the GitHub OAuth App callback URL.
+// CMS_ORIGIN is the exact origin of the published Decap CMS page.
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -16,6 +16,9 @@ export default {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
     if (url.pathname === "/auth") {
+      if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI) {
+        return json({ error: "OAuth is not configured. Add the required GitHub OAuth secrets and Worker variables." }, 503);
+      }
       const state = crypto.randomUUID();
       const target = new URL("https://github.com/login/oauth/authorize");
       target.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
@@ -36,6 +39,9 @@ export default {
       const cookie = request.headers.get("Cookie") || "";
       const savedState = cookie.match(/(?:^|; )decap_oauth_state=([^;]+)/)?.[1];
       if (!code || !state || !savedState || state !== savedState) return json({ error: "Invalid OAuth state or missing code" }, 400);
+      if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET || !env.OAUTH_REDIRECT_URI || !env.CMS_ORIGIN) {
+        return json({ error: "OAuth is not fully configured." }, 503);
+      }
       const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
