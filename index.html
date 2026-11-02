@@ -1,0 +1,21 @@
+---
+layout: default
+title: Home
+description: The latest articles, practical guides and ideas from Camel Blog.
+---
+<section class="hero">
+  <p class="eyebrow">CAMEL JOURNAL</p>
+  <h1>Ideas worth putting into practice.</h1>
+  <p class="hero__intro">Clear, useful articles and guides, published with care.</p>
+  <a class="button" href="{{ '/about/' | relative_url }}">Discover the blog</a>
+</section>
+<section class="section">
+  <div class="section__heading"><div><p class="eyebrow">THE JOURNAL</p><h2>Latest articles</h2></div></div>
+  <div class="post-grid">
+    {% assign visible_posts = site.posts | where_exp: "post", "post.draft != true" %}
+    {% for post in visible_posts limit: 8 %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
+  {% if visible_posts.size == 0 %}<p class="empty-state">New articles are coming soon.</p>{% endif %}
+</section>
