@@ -1,0 +1,52 @@
+title: Camel Blog
+description: Practical articles, guides and ideas.
+url: "https://gpldroid.github.io"
+baseurl: "/camel"
+lang: en
+timezone: Africa/Casablanca
+markdown: kramdown
+permalink: /:categories/:title/
+paginate: 8
+paginate_path: "/page/:num/"
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-paginate
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: Site Editor
+      image: /assets/images/default-cover.svg
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - oauth
+  - .github
+  - admin/config.yml
+include:
+  - admin
+author:
+  name: Site Editor
+  email: ""
+google_analytics: ""
+adsense_client: ""
+adsense_slot: ""
+social:
+  name: Camel Blog
+  links: []
