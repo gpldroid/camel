@@ -1,0 +1,15 @@
+---
+layout: default
+---
+<article class="article">
+  <header class="article-header">
+    <p class="eyebrow">{{ page.categories | join: " / " | default: "ARTICLE" }}</p>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="lead">{{ page.description }}</p>{% endif %}
+    <p class="article-meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>{% if page.author %} · {{ page.author }}{% endif %}</p>
+  </header>
+  {% if page.image %}<img class="article-cover" src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}">{% endif %}
+  <div class="prose">{{ content }}</div>
+  <div class="ad-slot" aria-label="Advertisement">{% if site.adsense_client != blank and site.adsense_slot != blank %}<ins class="adsbygoogle" style="display:block" data-ad-client="{{ site.adsense_client | escape }}" data-ad-slot="{{ site.adsense_slot | escape }}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>{% else %}<span>Advertisement space</span>{% endif %}</div>
+</article>
+{% if site.adsense_client != blank %}<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.adsense_client | escape }}" crossorigin="anonymous"></script>{% endif %}
